@@ -162,9 +162,12 @@ public class CraftMapCanvas implements MapCanvas {
                 int j = text.indexOf(';', i);
                 Preconditions.checkArgument(j >= 0, "text (%s) unterminated color string", text);
                 try {
-                    color = Byte.parseByte(text.substring(i + 1, j));
-                    i = j;
-                    continue;
+                    final int parsedColor = Integer.parseInt(text.substring(i + 1, j));
+                    if (parsedColor >= -128 && parsedColor <= 255) {
+                        color = (byte) parsedColor;
+                        i = j;
+                        continue;
+                    }
                 } catch (NumberFormatException ignored) {
                 }
             }
